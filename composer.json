@@ -1,0 +1,54 @@
+{
+    "name": "mel/live-calendar",
+    "description": "Laravel Livewire calendar component",
+    "keywords": [
+        "meliani",
+        "live-calendar"
+    ],
+    "homepage": "https://github.com/meliani/live-calendar",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "meliani",
+            "email": "m@meliani.xyz",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2|^8.1",
+        "livewire/livewire": "^2.11"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^5.0|^6.0",
+        "phpunit/phpunit": "^8.0|^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mel\\LiveCalendar\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mel\\LiveCalendar\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mel\\LiveCalendar\\LiveCalendarServiceProvider"
+            ],
+            "aliases": {
+                "LiveCalendar": "Mel\\LiveCalendar\\LiveCalendarFacade"
+            }
+        }
+    }
+}
