@@ -258,7 +258,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### Security
 
-If you discover any security related issues, please email santibanez.andres@gmail.com instead of using the issue tracker.
+If you discover any security related issues, please email m@meliani.xyz or use the issue tracker.
 
 ## Credits
 

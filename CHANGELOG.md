@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.0 - 2023-01-25
+- Added support for Laravel 10
+- many other changes
+
 ## 2.1.0 - 2021-01-25
 
 - Added support for PHP 8
