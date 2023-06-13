@@ -63,4 +63,19 @@ class LiveCalendarServiceProvider extends ServiceProvider
 HTML;
         });
     }
+
+    public function register()
+    {
+        $this->app->bind('live-calendar', function ($app) {
+            return new LiveCalendar();
+        });
+
+        $this->app->bind('live-calendar-monthly', function ($app) {
+            return new LiveCalendarMonthly();
+        });
+
+        $this->app->bind('live-calendar-weekly', function ($app) {
+            return new LiveCalendarWeekly();
+        });
+    }
 }

@@ -1,6 +1,4 @@
 <div>
-    <h2 class="text-2xl font-bold mb-4">{{__('Weekly View')}}</h2>
-
     @if($pollMillis !== null && $pollAction !== null)
         <div wire:poll.{{ $pollMillis }}ms="{{ $pollAction }}"></div>
     @elseif($pollMillis !== null)
@@ -27,7 +25,7 @@
                                 @include($dayView, [
                                     'componentId' => $componentId,
                                     'day' => $day,
-                                    'dayInMonth' => $day->isSameMonth(Carbon\Carbon($startsAt)),
+                                    'dayInMonth' => $day->isSameMonth($startsAt),
                                     'isToday' => $day->isToday(),
                                     'events' => $getEventsForDay($day
                                     , $events),

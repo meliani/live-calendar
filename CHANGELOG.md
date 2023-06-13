@@ -1,7 +1,10 @@
 # Changelog
+## 3.0.1 - 2023-06-13
+- Added weekly view 
 
-## 3.0.0 - 2023-01-25
+## 3.0.0 - 2023-05-25
 - Added support for Laravel 10
+- Added support for PHP 8.2
 - many other changes
 
 ## 2.1.0 - 2021-01-25

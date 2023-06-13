@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
 
-class LiveCalendarMonthly extends Component
+class LiveCalendarWeekly extends Component
     {
 
     public $startsAt;

@@ -31,44 +31,39 @@ use Livewire\Component;
  * @property boolean $dayClickEnabled
  * @property boolean $eventClickEnabled
  */
-class LiveCalendar extends Component
+class LiveCalendarMonthly extends Component
     {
-
     public $startsAt;
     public $endsAt;
+
     public $gridStartsAt;
     public $gridEndsAt;
+
     public $weekStartsAt;
     public $weekEndsAt;
-    public $calendarView;
-    public $weeklyCalendarView;
-    public $weekGrid;
 
+    public $calendarView;
     public $dayView;
     public $eventView;
     public $dayOfWeekView;
+
     public $dragAndDropClasses;
+
     public $beforeCalendarView;
     public $afterCalendarView;
+
     public $pollMillis;
     public $pollAction;
+
     public $dragAndDropEnabled;
     public $dayClickEnabled;
     public $eventClickEnabled;
-    public $detailViewModal = null;
     protected $casts = [
         'startsAt' => 'date',
         'endsAt' => 'date',
         'gridStartsAt' => 'date',
         'gridEndsAt' => 'date',
     ];
-
-    public $toggleMonthDisplay = false;
-
-    public function toggleCalendarDisplay()
-        {
-        $this->toggleMonthDisplay = !$this->toggleMonthDisplay;
-        }
 
     public function mount(
         $initialYear = null,
@@ -87,7 +82,7 @@ class LiveCalendar extends Component
         $dayClickEnabled = true,
         $eventClickEnabled = true,
         $showModal = false,
-        $weeklyCalendarView = null,
+        $detailViewModal = null,
         $extras = []
     ) {
         $this->weekStartsAt = $weekStartsAt ?? Carbon::SUNDAY;
@@ -98,25 +93,22 @@ class LiveCalendar extends Component
 
         $initialYear = $initialYear ?? Carbon::today()->year;
         $initialMonth = $initialMonth ?? Carbon::today()->month;
-        $this->weekGrid = [
-            Carbon::today()->startOfWeek(), // Start of the week (e.g., Monday)
-            Carbon::today()->startOfWeek()->addDays(1), // Tuesday
-            Carbon::today()->startOfWeek()->addDays(2), // Wednesday
-            Carbon::today()->startOfWeek()->addDays(3), // Thursday
-            Carbon::today()->startOfWeek()->addDays(4), // Friday
-            Carbon::today()->startOfWeek()->addDays(5), // Saturday
-            Carbon::today()->startOfWeek()->addDays(6), // Sunday
-        ];
+
         $this->startsAt = Carbon::createFromDate($initialYear, $initialMonth, 1)->startOfDay();
         $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();
 
         $this->calculateGridStartsEnds();
-        $this->setupViews($calendarView, $dayView, $eventView, $dayOfWeekView, $beforeCalendarView, $afterCalendarView, $weeklyCalendarView);
+
+        $this->setupViews($calendarView, $dayView, $eventView, $dayOfWeekView, $beforeCalendarView, $afterCalendarView);
+
         $this->setupPoll($pollMillis, $pollAction);
+
         $this->dragAndDropEnabled = $dragAndDropEnabled;
         $this->dragAndDropClasses = $dragAndDropClasses ?? 'border border-blue-400 border-4';
+
         $this->dayClickEnabled = $dayClickEnabled;
         $this->eventClickEnabled = $eventClickEnabled;
+        
         $this->afterMount($extras);
         }
 
@@ -132,15 +124,15 @@ class LiveCalendar extends Component
         $dayOfWeekView = null,
         $beforeCalendarView = null,
         $afterCalendarView = null,
-        $weeklyCalendarView = null
+        $detailViewModal = null
     ) {
         $this->calendarView = $calendarView ?? 'live-calendar::calendar';
         $this->dayView = $dayView ?? 'live-calendar::day';
         $this->eventView = $eventView ?? 'live-calendar::event';
         $this->dayOfWeekView = $dayOfWeekView ?? 'live-calendar::day-of-week';
+
         $this->beforeCalendarView = $beforeCalendarView ?? null;
         $this->afterCalendarView = $afterCalendarView ?? null;
-        $this->weeklyCalendarView = $weeklyCalendarView ?? 'live-calendar::weekly-calendar';
         }
 
     public function setupPoll($pollMillis, $pollAction)
@@ -246,17 +238,6 @@ class LiveCalendar extends Component
         {
         $events = $this->events();
 
-        if (!$this->toggleMonthDisplay) {
-            return view($this->weeklyCalendarView)
-                ->with([
-                    'componentId' => $this->id,
-                    'weekGrid' => $this->weekGrid,
-                    'events' => $events,
-                    'getEventsForDay' => function ($day) use ($events) {
-                        return $this->getEventsForDay($day, $events);
-                        }
-                ]);
-            }
         return view($this->calendarView)
             ->with([
                 'componentId' => $this->id,
