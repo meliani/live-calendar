@@ -64,7 +64,6 @@ class LiveCalendarWeekly extends Component
         $dragAndDropEnabled = true,
         $dayClickEnabled = true,
         $eventClickEnabled = true,
-        $showModal = false,
         $weeklyCalendarView = null,
         $extras = []
     ) {
@@ -82,8 +81,8 @@ class LiveCalendarWeekly extends Component
             Carbon::today()->startOfWeek()->addDays(2), // Wednesday
             Carbon::today()->startOfWeek()->addDays(3), // Thursday
             Carbon::today()->startOfWeek()->addDays(4), // Friday
-            Carbon::today()->startOfWeek()->addDays(5), // Saturday
-            Carbon::today()->startOfWeek()->addDays(6), // Sunday
+            // Carbon::today()->startOfWeek()->addDays(5), // Saturday
+            // Carbon::today()->startOfWeek()->addDays(6), // Sunday
         ];
         $this->startsAt = Carbon::createFromDate($initialYear, $initialMonth, 1)->startOfDay();
         $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();

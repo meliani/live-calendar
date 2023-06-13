@@ -9,28 +9,6 @@ use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
 
-/**
- * Class LiveCalendar
- * @package Mel\LiveCalendar
- * @property Carbon $startsAt
- * @property Carbon $endsAt
- * @property Carbon $gridStartsAt
- * @property Carbon $gridEndsAt
- * @property int $weekStartsAt
- * @property int $weekEndsAt
- * @property string $calendarView
- * @property string $dayView
- * @property string $eventView
- * @property string $dayOfWeekView
- * @property string $beforeCalendarWeekView
- * @property string $afterCalendarWeekView
- * @property string $dragAndDropClasses
- * @property int $pollMillis
- * @property string $pollAction
- * @property boolean $dragAndDropEnabled
- * @property boolean $dayClickEnabled
- * @property boolean $eventClickEnabled
- */
 class LiveCalendarMonthly extends Component
     {
     public $startsAt;
@@ -81,8 +59,6 @@ class LiveCalendarMonthly extends Component
         $dragAndDropEnabled = true,
         $dayClickEnabled = true,
         $eventClickEnabled = true,
-        $showModal = false,
-        $detailViewModal = null,
         $extras = []
     ) {
         $this->weekStartsAt = $weekStartsAt ?? Carbon::SUNDAY;
@@ -123,8 +99,7 @@ class LiveCalendarMonthly extends Component
         $eventView = null,
         $dayOfWeekView = null,
         $beforeCalendarView = null,
-        $afterCalendarView = null,
-        $detailViewModal = null
+        $afterCalendarView = null
     ) {
         $this->calendarView = $calendarView ?? 'live-calendar::calendar';
         $this->dayView = $dayView ?? 'live-calendar::day';
