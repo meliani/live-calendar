@@ -58,8 +58,6 @@ class LiveCalendar extends Component
     public $dragAndDropEnabled;
     public $dayClickEnabled;
     public $eventClickEnabled;
-    public $showModal = false;
-    public $detailViewModal = null;
     protected $casts = [
         'startsAt' => 'date',
         'endsAt' => 'date',
@@ -110,8 +108,7 @@ class LiveCalendar extends Component
 
         $this->dayClickEnabled = $dayClickEnabled;
         $this->eventClickEnabled = $eventClickEnabled;
-        $this->showModal = $showModal;
-        // $this->detailViewModal = 'modal';
+        
         $this->afterMount($extras);
         }
 
@@ -136,9 +133,6 @@ class LiveCalendar extends Component
 
         $this->beforeCalendarView = $beforeCalendarView ?? null;
         $this->afterCalendarView = $afterCalendarView ?? null;
-        $this->detailViewModal = $detailViewModal ?? 'live-calendar::modal';
-        ;
-
         }
 
     public function setupPoll($pollMillis, $pollAction)
@@ -249,7 +243,6 @@ class LiveCalendar extends Component
                 'componentId' => $this->id,
                 'monthGrid' => $this->monthGrid(),
                 'events' => $events,
-                'showModal' => $this->showModal,
                 'getEventsForDay' => function ($day) use ($events) {
                     return $this->getEventsForDay($day, $events);
                     }

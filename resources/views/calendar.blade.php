@@ -5,6 +5,7 @@
         wire:poll.{{ $pollMillis }}ms
     @endif
 >
+
     <div>
         @includeIf($beforeCalendarView)
     </div>
@@ -40,5 +41,3 @@
         @includeIf($afterCalendarView)
     </div>
 </div>
-
-{{-- @include($detailViewModal) --}}
