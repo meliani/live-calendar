@@ -1,9 +1,7 @@
-<div>
-    @if($pollMillis !== null && $pollAction !== null)
-        <div wire:poll.{{ $pollMillis }}ms="{{ $pollAction }}"></div>
+<div
+    @if ($pollMillis !== null && $pollAction !== null) wire:poll.{{ $pollMillis }}ms="{{ $pollAction }}"
     @elseif($pollMillis !== null)
-        <div wire:poll.{{ $pollMillis }}ms></div>
-    @endif
+        wire:poll.{{ $pollMillis }}ms @endif>
 
     <div>
         @includeIf($beforeCalendarView)
