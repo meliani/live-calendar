@@ -31,7 +31,7 @@ use Livewire\Component;
  * @property boolean $dayClickEnabled
  * @property boolean $eventClickEnabled
  */
-class LiveCalendar extends Component
+class LiveCalendar_backup extends Component
     {
     public $startsAt;
     public $endsAt;

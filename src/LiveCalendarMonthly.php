@@ -36,6 +36,8 @@ class LiveCalendarMonthly extends Component
     public $dragAndDropEnabled;
     public $dayClickEnabled;
     public $eventClickEnabled;
+    public $showWeekends=false; // New var  - not yet added to constructor
+
     protected $casts = [
         'startsAt' => 'date',
         'endsAt' => 'date',

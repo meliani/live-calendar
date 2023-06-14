@@ -66,9 +66,9 @@ HTML;
 
     public function register()
     {
-        $this->app->bind('live-calendar', function ($app) {
+        /* $this->app->bind('live-calendar', function ($app) {
             return new LiveCalendar();
-        });
+        }); */
 
         $this->app->bind('live-calendar-monthly', function ($app) {
             return new LiveCalendarMonthly();

@@ -1,43 +1,49 @@
 <div
-    @if($pollMillis !== null && $pollAction !== null)
-        wire:poll.{{ $pollMillis }}ms="{{ $pollAction }}"
+    @if ($pollMillis !== null && $pollAction !== null) wire:poll.{{ $pollMillis }}ms="{{ $pollAction }}"
     @elseif($pollMillis !== null)
-        wire:poll.{{ $pollMillis }}ms
-    @endif
->
+        wire:poll.{{ $pollMillis }}ms @endif>
+    <div x-data="{ showWeekends: false }">
+        <div>
+            @includeIf($beforeCalendarView)
+        </div>
 
-    <div>
-        @includeIf($beforeCalendarView)
-    </div>
+        <div class="flex">
+            <div class="overflow-x-auto w-full">
+                <div class="inline-block min-w-full overflow-hidden">
 
-    <div class="flex">
-        <div class="overflow-x-auto w-full">
-            <div class="inline-block min-w-full overflow-hidden">
-
-                <div class="w-full flex flex-row">
-                    @foreach($monthGrid->first() as $day)
-                        @include($dayOfWeekView, ['day' => $day])
-                    @endforeach
-                </div>
-
-                @foreach($monthGrid as $week)
                     <div class="w-full flex flex-row">
-                        @foreach($week as $day)
-                            @include($dayView, [
-                                    'componentId' => $componentId,
-                                    'day' => $day,
-                                    'dayInMonth' => $day->isSameMonth($startsAt),
-                                    'isToday' => $day->isToday(),
-                                    'events' => $getEventsForDay($day, $events),
-                                ])
+                        @foreach ($monthGrid->first() as $day)
+                            @if (!$day->isWeekend() || $showWeekends)
+                                @include($dayOfWeekView, ['day' => $day])
+                            @endif
                         @endforeach
                     </div>
-                @endforeach
+
+                    @foreach ($monthGrid as $week)
+                        <div class="w-full flex flex-row">
+                            @foreach ($week as $day)
+                                @if (!$day->isWeekend() || $showWeekends)
+                                    @include($dayView, [
+                                        'componentId' => $componentId,
+                                        'day' => $day,
+                                        'dayInMonth' => $day->isSameMonth($startsAt),
+                                        'isToday' => $day->isToday(),
+                                        'events' => $getEventsForDay($day, $events),
+                                    ])
+                                @endif
+                            @endforeach
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
-    </div>
 
-    <div>
-        @includeIf($afterCalendarView)
+        <div>
+            @includeIf($afterCalendarView)
+        </div>
+
+        <button class="mt-2" x-on:click="showWeekends = !showWeekends">
+            Toggle Weekends
+        </button>
     </div>
 </div>
