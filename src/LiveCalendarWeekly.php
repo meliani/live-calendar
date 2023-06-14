@@ -112,7 +112,7 @@ class LiveCalendarWeekly extends Component
         $weeklyCalendarView = null
     ) {
         $this->calendarView = $calendarView ?? 'live-calendar::calendar';
-        $this->dayView = $dayView ?? 'live-calendar::day';
+        $this->dayView = $dayView ?? 'live-calendar::weekly-day';
         $this->eventView = $eventView ?? 'live-calendar::event';
         $this->dayOfWeekView = $dayOfWeekView ?? 'live-calendar::day-of-week';
         $this->beforeCalendarView = $beforeCalendarView ?? null;
