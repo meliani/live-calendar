@@ -111,13 +111,13 @@ class LiveCalendarWeekly extends Component
         $afterCalendarView = null,
         $weeklyCalendarView = null
     ) {
-        $this->calendarView = $calendarView ?? 'live-calendar::calendar';
-        $this->dayView = $dayView ?? 'live-calendar::weekly-day';
-        $this->eventView = $eventView ?? 'live-calendar::event';
-        $this->dayOfWeekView = $dayOfWeekView ?? 'live-calendar::day-of-week';
+        $this->calendarView = $calendarView ?? 'live-calendar::weekly.week-calendar';
+        $this->dayView = $dayView ?? 'live-calendar::weekly.week-day';
+        $this->eventView = $eventView ?? 'live-calendar::weekly.week-event';
+        $this->dayOfWeekView = $dayOfWeekView ?? 'live-calendar::weekly.week-day-of-week';
         $this->beforeCalendarView = $beforeCalendarView ?? null;
         $this->afterCalendarView = $afterCalendarView ?? null;
-        $this->weeklyCalendarView = $weeklyCalendarView ?? 'live-calendar::weekly-calendar';
+        $this->weeklyCalendarView = $weeklyCalendarView ?? 'live-calendar::weekly.week-calendar';
         }
 
     public function setupPoll($pollMillis, $pollAction)

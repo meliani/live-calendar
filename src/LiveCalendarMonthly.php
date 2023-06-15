@@ -103,10 +103,10 @@ class LiveCalendarMonthly extends Component
         $beforeCalendarView = null,
         $afterCalendarView = null
     ) {
-        $this->calendarView = $calendarView ?? 'live-calendar::calendar';
-        $this->dayView = $dayView ?? 'live-calendar::day';
-        $this->eventView = $eventView ?? 'live-calendar::event';
-        $this->dayOfWeekView = $dayOfWeekView ?? 'live-calendar::day-of-week';
+        $this->calendarView = $calendarView ?? 'live-calendar::monthly.calendar';
+        $this->dayView = $dayView ?? 'live-calendar::monthly.day';
+        $this->eventView = $eventView ?? 'live-calendar::monthly.event';
+        $this->dayOfWeekView = $dayOfWeekView ?? 'live-calendar::monthly.day-of-week';
 
         $this->beforeCalendarView = $beforeCalendarView ?? null;
         $this->afterCalendarView = $afterCalendarView ?? null;
