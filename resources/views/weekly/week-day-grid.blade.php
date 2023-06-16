@@ -33,14 +33,14 @@
             </div>
 
             <!-- Events -->
-            <div class="p-2 my-2 flex-1 overflow-y-auto grid gap-2 lg:grid-cols-3 xl:grid-cols-3">
+            <div class="p-2 my-2 flex-1 overflow-y-auto grid gap-4 lg:grid-cols-3 xl:grid-cols-3">
                 @foreach($events as $event)
                     <div
                         @if($dragAndDropEnabled)
                             draggable="true"
                             x-on:dragstart="$wire.onLiveCalendarEventDragStart(event, '{{ $event['id'] }}')"
                         @endif
-                        class="lg:w-full xl:w-1/3">
+                        class="lg:w-full lg:w-1/2">
                         @include($eventView, [
                             'event' => $event,
                         ])
