@@ -117,14 +117,15 @@ class LiveCalendarWeekly extends LiveCalendar
     {
         $weekGrid = collect();
         $currentDay = Carbon::today()->startOfWeek();
-
+    
         while (!$currentDay->greaterThan(Carbon::today()->endOfWeek())) {
-            $weekGrid->push($currentDay->clone());
+            $weekGrid->push($currentDay->format('Y-m-d')); // Store day as a formatted string
             $currentDay->addDay();
         }
-
+    
         return $weekGrid;
     }
+    
 
     public function events(): Collection
     {

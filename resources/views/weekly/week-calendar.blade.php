@@ -13,18 +13,22 @@
                 <div class="w-full flex flex-row">
                     <div class="w-full flex flex-col">
                         @foreach ($weekGrid as $day)
-                            <div class="flex flex-row">
-                                {{-- {{dd(Carbon\Carbon::parse($startsAt))}} --}}
-
-                                @include($dayView, [
-                                    'componentId' => $componentId,
-                                    'day' => $day,
-                                    'dayInWeek' => $day->isSameWeek($startsAt),
-                                    'isToday' => $day->isToday(),
-                                    'week_events' => $getEventsForDay($day, $week_events),
-                                ])
-                            </div>
-                        @endforeach
+                        <div class="flex flex-row">
+                            {{-- Convert the day string to a Carbon instance --}}
+                            @php
+                                $dayCarbon = Carbon\Carbon::parse($day);
+                            @endphp
+                    
+                            @include($dayView, [
+                                'componentId' => $componentId,
+                                'day' => $dayCarbon, // Pass the Carbon instance
+                                'dayInWeek' => $dayCarbon->isSameWeek($startsAt),
+                                'isToday' => $dayCarbon->isToday(),
+                                'week_events' => $getEventsForDay($dayCarbon, $week_events),
+                            ])
+                        </div>
+                    @endforeach
+                    
                     </div>
                 </div>
             </div>
