@@ -87,18 +87,20 @@ class LiveCalendarWeekly extends LiveCalendar
     {
         $this->startsAt->subWeek();
         $this->endsAt->subWeek();
-
+        $this->weekGrid = $this->generateWeekGrid(); // Update the week grid
+    
         $this->calculateGridStartsEnds();
     }
-
+    
     public function goToNextWeek()
     {
         $this->startsAt->addWeek();
         $this->endsAt->addWeek();
-
+        $this->weekGrid = $this->generateWeekGrid(); // Update the week grid
+    
         $this->calculateGridStartsEnds();
     }
-
+    
     public function goToCurrentWeek()
     {
         $this->startsAt = Carbon::today()->startOfWeek()->startOfDay();
