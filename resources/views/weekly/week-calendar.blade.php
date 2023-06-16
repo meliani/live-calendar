@@ -19,9 +19,9 @@
                                 @include($dayView, [
                                     'componentId' => $componentId,
                                     'day' => $day,
-                                    'dayInMonth' => $day->isSameWeek($startsAt),
+                                    'dayInWeek' => $day->isSameWeek($startsAt),
                                     'isToday' => $day->isToday(),
-                                    'events' => $getEventsForDay($day, $events),
+                                    'week_events' => $getEventsForDay($day, $week_events),
                                 ])
                             </div>
                         @endforeach

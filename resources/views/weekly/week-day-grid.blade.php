@@ -6,7 +6,7 @@
     x-on:drop="isDragging = false; $wire.onLiveCalendarEventDrop(event, '{{ $componentId }}', '{{ $day }}', {{ $day->year }}, {{ $day->month }}, {{ $day->day }}, '{{ $dragAndDropClasses }}');"
     class="flex-1 h-40 lg:h-48 border border-gray-200 -mt-px -ml-px"
     style="min-width: 10rem;"
-    :class="{ 'bg-yellow-100': {{ $dayInMonth }} && {{ $isToday }}, 'bg-gray-100': !{{ $dayInMonth }} }"
+    :class="{ 'bg-yellow-100': {{ $dayInWeek }} && {{ $isToday }}, 'bg-gray-100': !{{ $dayInWeek }} }"
     :style="{ 'background-color': isDragging ? '#f7fafc' : '' }">
 
     <!-- Wrapper for Drag and Drop -->
@@ -22,19 +22,19 @@
 
             <!-- Number of Day -->
             <div class="flex items-center">
-                <p class="text-sm {{ $dayInMonth ? 'font-medium' : '' }}">
+                <p class="text-sm {{ $dayInWeek ? 'font-medium' : '' }}">
                     {{ $day->formatLocalized('%A') }} {{ $day->format('d') }}
                 </p>
                 <p class="text-xs text-gray-600 ml-4">
-                    @if($events->isNotEmpty())
-                        {{ $events->count() }} {{ Str::plural('event', $events->count()) }}
+                    @if($week_events->isNotEmpty())
+                        {{ $week_events->count() }} {{ Str::plural('event', $week_events->count()) }}
                     @endif
                 </p>
             </div>
 
             <!-- Events -->
             <div class="p-2 my-2 flex-1 overflow-y-auto grid gap-4 lg:grid-cols-3 xl:grid-cols-3">
-                @foreach($events as $event)
+                @foreach($week_events as $event)
                     <div
                         @if($dragAndDropEnabled)
                             draggable="true"

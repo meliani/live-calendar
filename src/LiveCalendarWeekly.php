@@ -12,6 +12,8 @@ use Livewire\Component;
 class LiveCalendarWeekly extends LiveCalendar
 {
 
+    public $weekGrid;
+
     public function mount(
         $initialYear = null,
         $initialMonth = null,
@@ -38,9 +40,11 @@ class LiveCalendarWeekly extends LiveCalendar
 
         $initialYear = $initialYear ?? Carbon::today()->year;
         $initialMonth = $initialMonth ?? Carbon::today()->month;
+        $initialWeek = $initialWeek ?? Carbon::today()->week;
+
         $this->weekGrid = $this->generateWeekGrid();
-        $this->startsAt = Carbon::createFromDate($initialYear, $initialMonth, 1)->startOfDay();
-        $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();
+        $this->startsAt = Carbon::createFromDate($initialYear, $initialWeek, 1)->startOfDay();
+        $this->endsAt = $this->startsAt->clone()->endOfWeek()->startOfDay();
 
         $this->calculateGridStartsEnds();
         $this->setupViews($calendarView, $dayView, $eventView, $dayOfWeekView, $beforeCalendarView, $afterCalendarView);
@@ -64,7 +68,6 @@ class LiveCalendarWeekly extends LiveCalendar
         $dayOfWeekView = null,
         $beforeCalendarView = null,
         $afterCalendarView = null,
-        $weeklyCalendarView = null
     ) {
         $this->calendarView = $calendarView ?? 'live-calendar::weekly.week-calendar';
         $this->dayView = $dayView ?? 'live-calendar::weekly.week-day-grid';
@@ -72,7 +75,6 @@ class LiveCalendarWeekly extends LiveCalendar
         $this->dayOfWeekView = $dayOfWeekView ?? 'live-calendar::weekly.week-day-of-week';
         $this->beforeCalendarView = $beforeCalendarView ?? null;
         $this->afterCalendarView = $afterCalendarView ?? null;
-        // $this->weeklyCalendarView = $weeklyCalendarView ?? 'live-calendar::weekly.week-calendar';
     }
 
     public function setupPoll($pollMillis, $pollAction)
@@ -164,7 +166,7 @@ class LiveCalendarWeekly extends LiveCalendar
             ->with([
                 'componentId' => $this->id,
                 'weekGrid' => $this->weekGrid,
-                'events' => $events,
+                'week_events' => $events,
                 // 'startsAt' => $this->startsAt, // Make sure to pass the correct Carbon instance here
                 'getEventsForDay' => function ($day) use ($events) {
                     return $this->getEventsForDay($day, $events);
