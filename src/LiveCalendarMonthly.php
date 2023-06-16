@@ -9,42 +9,8 @@ use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
 
-class LiveCalendarMonthly extends Component
+class LiveCalendarMonthly extends LiveCalendar
     {
-    public $startsAt;
-    public $endsAt;
-
-    public $gridStartsAt;
-    public $gridEndsAt;
-
-    public $weekStartsAt;
-    public $weekEndsAt;
-
-    public $calendarView;
-    public $dayView;
-    public $eventView;
-    public $dayOfWeekView;
-
-    public $dragAndDropClasses;
-
-    public $beforeCalendarView;
-    public $afterCalendarView;
-
-    public $pollMillis;
-    public $pollAction;
-
-    public $dragAndDropEnabled;
-    public $dayClickEnabled;
-    public $eventClickEnabled;
-    public $showWeekends=false; // New var  - not yet added to constructor
-    public $isLoading = false;
-
-    protected $casts = [
-        'startsAt' => 'date',
-        'endsAt' => 'date',
-        'gridStartsAt' => 'date',
-        'gridEndsAt' => 'date',
-    ];
 
     public function mount(
         $initialYear = null,
@@ -182,10 +148,6 @@ class LiveCalendarMonthly extends Component
         return $monthGrid;
         }
 
-    public function events(): Collection
-        {
-        return collect();
-        }
 
     public function getEventsForDay($day, Collection $events): Collection
         {
