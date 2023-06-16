@@ -42,7 +42,7 @@
             @includeIf($afterCalendarView)
         </div>
 
-{{--         <button class="mt-2" x-on:click="showWeekends = !showWeekends">
+        {{--         <button class="mt-2" x-on:click="showWeekends = !showWeekends">
             Toggle Weekends
         </button> --}}
     </div>

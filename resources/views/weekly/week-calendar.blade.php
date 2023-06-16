@@ -12,15 +12,16 @@
             <div class="inline-block min-w-full overflow-hidden">
                 <div class="w-full flex flex-row">
                     <div class="w-full flex flex-col">
-                        @foreach($weekGrid as $day)
+                        @foreach ($weekGrid as $day)
                             <div class="flex flex-row">
+                                {{-- {{dd(Carbon\Carbon::parse($startsAt))}} --}}
+
                                 @include($dayView, [
                                     'componentId' => $componentId,
                                     'day' => $day,
-                                    'dayInMonth' => $day->isSameMonth($startsAt),
+                                    'dayInMonth' => $day->isSameWeek($startsAt),
                                     'isToday' => $day->isToday(),
-                                    'events' => $getEventsForDay($day
-                                    , $events),
+                                    'events' => $getEventsForDay($day, $events),
                                 ])
                             </div>
                         @endforeach

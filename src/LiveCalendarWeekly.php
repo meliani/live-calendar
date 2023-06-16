@@ -10,8 +10,7 @@ use Illuminate\View\View;
 use Livewire\Component;
 
 class LiveCalendarWeekly extends Component
-    {
-
+{
     public $startsAt;
     public $endsAt;
     public $gridStartsAt;
@@ -21,7 +20,6 @@ class LiveCalendarWeekly extends Component
     public $calendarView;
     public $weeklyCalendarView;
     public $weekGrid;
-
     public $dayView;
     public $eventView;
     public $dayOfWeekView;
@@ -44,9 +42,9 @@ class LiveCalendarWeekly extends Component
     public $toggleMonthDisplay = false;
 
     public function toggleCalendarDisplay()
-        {
+    {
         $this->toggleMonthDisplay = !$this->toggleMonthDisplay;
-        }
+    }
 
     public function mount(
         $initialYear = null,
@@ -70,20 +68,11 @@ class LiveCalendarWeekly extends Component
         $this->weekStartsAt = $weekStartsAt ?? Carbon::SUNDAY;
         $this->weekEndsAt = $this->weekStartsAt == Carbon::SUNDAY
             ? Carbon::SATURDAY
-            : collect([0, 1, 2, 3, 4, 5, 6])->get($this->weekStartsAt + 6 - 7)
-        ;
+            : collect([0, 1, 2, 3, 4, 5, 6])->get($this->weekStartsAt + 6 - 7);
 
         $initialYear = $initialYear ?? Carbon::today()->year;
         $initialMonth = $initialMonth ?? Carbon::today()->month;
-        $this->weekGrid = [
-            Carbon::today()->startOfWeek(), // Start of the week (e.g., Monday)
-            Carbon::today()->startOfWeek()->addDays(1), // Tuesday
-            Carbon::today()->startOfWeek()->addDays(2), // Wednesday
-            Carbon::today()->startOfWeek()->addDays(3), // Thursday
-            Carbon::today()->startOfWeek()->addDays(4), // Friday
-            // Carbon::today()->startOfWeek()->addDays(5), // Saturday
-            // Carbon::today()->startOfWeek()->addDays(6), // Sunday
-        ];
+        $this->weekGrid = $this->generateWeekGrid();
         $this->startsAt = Carbon::createFromDate($initialYear, $initialMonth, 1)->startOfDay();
         $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();
 
@@ -95,12 +84,12 @@ class LiveCalendarWeekly extends Component
         $this->dayClickEnabled = $dayClickEnabled;
         $this->eventClickEnabled = $eventClickEnabled;
         $this->afterMount($extras);
-        }
+    }
 
     public function afterMount($extras = [])
-        {
+    {
         //
-        }
+    }
 
     public function setupViews(
         $calendarView = null,
@@ -111,126 +100,119 @@ class LiveCalendarWeekly extends Component
         $afterCalendarView = null,
         $weeklyCalendarView = null
     ) {
-        $this->calendarView = $calendarView ?? 'live-calendar::weekly.week-calendar';
+        $this->calendarView = $calendarView ?? 'live-calendar::week-calendar';
         $this->dayView = $dayView ?? 'live-calendar::weekly.week-day';
         $this->eventView = $eventView ?? 'live-calendar::weekly.week-event';
         $this->dayOfWeekView = $dayOfWeekView ?? 'live-calendar::weekly.week-day-of-week';
         $this->beforeCalendarView = $beforeCalendarView ?? null;
         $this->afterCalendarView = $afterCalendarView ?? null;
         $this->weeklyCalendarView = $weeklyCalendarView ?? 'live-calendar::weekly.week-calendar';
-        }
+    }
 
     public function setupPoll($pollMillis, $pollAction)
-        {
+    {
         $this->pollMillis = $pollMillis;
         $this->pollAction = $pollAction;
-        }
+    }
 
-    public function goToPreviousMonth()
-        {
-        $this->startsAt->subMonthNoOverflow();
-        $this->endsAt->subMonthNoOverflow();
-
-        $this->calculateGridStartsEnds();
-        }
-
-    public function goToNextMonth()
-        {
-        $this->startsAt->addMonthNoOverflow();
-        $this->endsAt->addMonthNoOverflow();
+    public function goToPreviousWeek()
+    {
+        $this->startsAt->subWeek();
+        $this->endsAt->subWeek();
 
         $this->calculateGridStartsEnds();
-        }
+    }
 
-    public function goToCurrentMonth()
-        {
-        $this->startsAt = Carbon::today()->startOfMonth()->startOfDay();
-        $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();
+    public function goToNextWeek()
+    {
+        $this->startsAt->addWeek();
+        $this->endsAt->addWeek();
 
         $this->calculateGridStartsEnds();
-        }
+    }
+
+    public function goToCurrentWeek()
+    {
+        $this->startsAt = Carbon::today()->startOfWeek()->startOfDay();
+        $this->endsAt = $this->startsAt->clone()->endOfWeek()->startOfDay();
+
+        $this->calculateGridStartsEnds();
+    }
 
     public function calculateGridStartsEnds()
-        {
+    {
         $this->gridStartsAt = $this->startsAt->clone()->startOfWeek($this->weekStartsAt);
         $this->gridEndsAt = $this->endsAt->clone()->endOfWeek($this->weekEndsAt);
-        }
+    }
 
-    /**
-     * @throws Exception
-     */
-    public function monthGrid()
-        {
-        $firstDayOfGrid = $this->gridStartsAt;
-        $lastDayOfGrid = $this->gridEndsAt;
+    public function generateWeekGrid()
+    {
+        $weekGrid = collect();
+        $currentDay = Carbon::today()->startOfWeek();
 
-        $numbersOfWeeks = $lastDayOfGrid->diffInWeeks($firstDayOfGrid) + 1;
-        $days = $lastDayOfGrid->diffInDays($firstDayOfGrid) + 1;
-
-        if ($days % 7 != 0) {
-            throw new Exception("The Calendar is not correctly configured. Check initial inputs.");
-            }
-
-        $monthGrid = collect();
-        $currentDay = $firstDayOfGrid->clone();
-
-        while (!$currentDay->greaterThan($lastDayOfGrid)) {
-            $monthGrid->push($currentDay->clone());
+        while (!$currentDay->greaterThan(Carbon::today()->endOfWeek())) {
+            $weekGrid->push($currentDay->clone());
             $currentDay->addDay();
-            }
-
-        $monthGrid = $monthGrid->chunk(7);
-        if ($numbersOfWeeks != $monthGrid->count()) {
-            throw new Exception("The Calendar is calculated wrong number of weeks. Sorry :(");
-            }
-
-        return $monthGrid;
         }
+
+        return $weekGrid;
+    }
 
     public function events(): Collection
-        {
+    {
         return collect();
-        }
+    }
 
     public function getEventsForDay($day, Collection $events): Collection
-        {
+    {
         return $events
             ->filter(function ($event) use ($day) {
                 return Carbon::parse($event['date'])->isSameDay($day);
-                });
-        }
+            });
+    }
 
     public function onDayClick($year, $month, $day)
-        {
+    {
         //
-        }
+    }
 
     public function onEventClick($eventId)
-        {
-        // 
-        }
+    {
+        //
+    }
 
     public function onEventDropped($eventId, $year, $month, $day)
-        {
+    {
         //
-        }
+    }
 
     /**
      * @return Factory|View
      * @throws Exception
      */
     public function render()
-        {
+    {
         $events = $this->events();
 
-        return view($this->weeklyCalendarView)
+/*         return view($this->weeklyCalendarView)
             ->with([
                 'componentId' => $this->id,
                 'weekGrid' => $this->weekGrid,
                 'events' => $events,
                 'getEventsForDay' => function ($day) use ($events) {
                     return $this->getEventsForDay($day, $events);
-                    }
-            ]);
+                }
+            ]); */
+            // $this->startsAt = Carbon::createFromDate()->startOfDay();
+            return view($this->weeklyCalendarView)
+    ->with([
+        'componentId' => $this->id,
+        'weekGrid' => $this->weekGrid,
+        'events' => $events,
+        'startsAt' => $this->startsAt, // Make sure to pass the correct Carbon instance here
+        'getEventsForDay' => function ($day) use ($events) {
+            return $this->getEventsForDay($day, $events);
         }
+    ]);
     }
+}
