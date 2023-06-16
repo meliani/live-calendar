@@ -37,6 +37,7 @@ class LiveCalendarMonthly extends Component
     public $dayClickEnabled;
     public $eventClickEnabled;
     public $showWeekends=false; // New var  - not yet added to constructor
+    public $isLoading = false;
 
     protected $casts = [
         'startsAt' => 'date',
@@ -128,6 +129,8 @@ class LiveCalendarMonthly extends Component
 
     public function goToNextMonth()
         {
+            $this->isLoading = true;
+
         $this->startsAt->addMonthNoOverflow();
         $this->endsAt->addMonthNoOverflow();
 
