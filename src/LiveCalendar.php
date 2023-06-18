@@ -62,6 +62,7 @@ class LiveCalendar extends Component
         $dragAndDropEnabled = true,
         $dayClickEnabled = true,
         $eventClickEnabled = true,
+        $initialWeek = null,
         $extras = []
     ) {
         $this->weekStartsAt = $weekStartsAt ?? Carbon::SUNDAY;

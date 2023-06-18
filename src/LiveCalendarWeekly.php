@@ -30,6 +30,7 @@ class LiveCalendarWeekly extends LiveCalendar
         $dragAndDropEnabled = true,
         $dayClickEnabled = true,
         $eventClickEnabled = true,
+        $initialWeek = null,
         // $weeklyCalendarView = null,
         $extras = []
     ) {
@@ -41,12 +42,13 @@ class LiveCalendarWeekly extends LiveCalendar
         $initialYear = $initialYear ?? Carbon::today()->year;
         $initialMonth = $initialMonth ?? Carbon::today()->month;
         $initialWeek = $initialWeek ?? Carbon::today()->week;
+        // dd(Carbon::today()->month);
 
-        $this->weekGrid = $this->generateWeekGrid();
-        $this->startsAt = Carbon::createFromDate($initialYear, $initialWeek, 1)->startOfDay();
+        $this->startsAt = Carbon::createFromDate($initialYear, $initialMonth, $initialWeek)->startOfDay();
         $this->endsAt = $this->startsAt->clone()->endOfWeek()->startOfDay();
-
         $this->calculateGridStartsEnds();
+        $this->weekGrid = $this->generateWeekGrid();
+
         $this->setupViews($calendarView, $dayView, $eventView, $dayOfWeekView, $beforeCalendarView, $afterCalendarView);
         $this->setupPoll($pollMillis, $pollAction);
         $this->dragAndDropEnabled = $dragAndDropEnabled;
@@ -87,18 +89,16 @@ class LiveCalendarWeekly extends LiveCalendar
     {
         $this->startsAt->subWeek();
         $this->endsAt->subWeek();
-        $this->weekGrid = $this->generateWeekGrid(); // Update the week grid
-    
         $this->calculateGridStartsEnds();
+        $this->weekGrid = $this->generateWeekGrid(); // Update the week grid
     }
     
     public function goToNextWeek()
     {
         $this->startsAt->addWeek();
         $this->endsAt->addWeek();
-        $this->weekGrid = $this->generateWeekGrid(); // Update the week grid
-    
         $this->calculateGridStartsEnds();
+        $this->weekGrid = $this->generateWeekGrid(); // Update the week grid
     }
     
     public function goToCurrentWeek()
@@ -107,17 +107,21 @@ class LiveCalendarWeekly extends LiveCalendar
         $this->endsAt = $this->startsAt->clone()->endOfWeek()->startOfDay();
 
         $this->calculateGridStartsEnds();
+        $this->weekGrid = $this->generateWeekGrid(); // Update the week grid
+
     }
 
     public function calculateGridStartsEnds()
     {
         $this->gridStartsAt = $this->startsAt->clone()->startOfWeek($this->weekStartsAt);
         $this->gridEndsAt = $this->endsAt->clone()->endOfWeek($this->weekEndsAt);
+        // dd($this->weekStartsAt);
+
     }
 
     public function generateWeekGrid()
     {
-        $weekGrid = collect();
+/*         $weekGrid = collect();
         $currentDay = Carbon::today()->startOfWeek();
     
         while (!$currentDay->greaterThan(Carbon::today()->endOfWeek())) {
@@ -125,6 +129,32 @@ class LiveCalendarWeekly extends LiveCalendar
             $currentDay->addDay();
         }
     
+        return $weekGrid; */
+        $weekGrid = collect();
+        $firstDayOfGrid = $this->gridStartsAt;
+        $lastDayOfGrid = $this->gridEndsAt;
+
+        // $days = $lastDayOfGrid->diffInDays($firstDayOfGrid) + 1;
+        // dd($currentDay);
+        // while (!$firstDayOfGrid->greaterThan($lastDayOfGrid)) {
+        //     $weekGrid->push($firstDayOfGrid->format('Y-m-d')); // Store day as a formatted string
+        //     $currentDay->addDay();
+        // }
+/*         dd([$this->weekStartsAt,
+        $firstDayOfGrid,
+        $lastDayOfGrid
+    ]); */
+        $weekGrid = collect();
+        $currentDay = $firstDayOfGrid->clone();
+
+        while (!$currentDay->greaterThan($lastDayOfGrid)) {
+            $weekGrid->push($currentDay->clone());
+            $currentDay->addDay();
+            }
+
+        // $weekGrid = $weekGrid->chunk(7);
+
+
         return $weekGrid;
     }
     

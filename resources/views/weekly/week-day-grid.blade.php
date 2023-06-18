@@ -23,7 +23,7 @@
             <!-- Number of Day -->
             <div class="flex items-center">
                 <p class="text-sm {{ $dayInWeek ? 'font-medium' : '' }}">
-                    {{ $day->formatLocalized('%A') }} {{ $day->format('d') }}
+                    {{ $day->formatLocalized('%A') }} {{ $day->format('d M') }}
                 </p>
                 <p class="text-xs text-gray-600 ml-4">
                     @if($week_events->isNotEmpty())
