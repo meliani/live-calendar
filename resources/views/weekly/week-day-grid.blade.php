@@ -6,7 +6,7 @@
     x-on:drop="isDragging = false; $wire.onLiveCalendarEventDrop(event, '{{ $componentId }}', '{{ $day }}', {{ $day->year }}, {{ $day->month }}, {{ $day->day }}, '{{ $dragAndDropClasses }}');"
     class="flex-1 h-40 lg:h-48 border border-gray-200 -mt-px -ml-px"
     style="min-width: 10rem;"
-    :class="{ 'bg-yellow-100': {{ $dayInWeek }} && {{ $isToday }}, 'bg-gray-100': !{{ $dayInWeek }} }"
+    {{-- :class="{ 'bg-yellow-100': {{ $dayInWeek }} && {{ $isToday }}, 'bg-gray-100': !{{ $dayInWeek }} }" --}}
     :style="{ 'background-color': isDragging ? '#f7fafc' : '' }">
 
     <!-- Wrapper for Drag and Drop -->

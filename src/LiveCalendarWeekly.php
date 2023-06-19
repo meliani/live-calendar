@@ -119,7 +119,7 @@ class LiveCalendarWeekly extends LiveCalendar
 
     }
 
-    public function generateWeekGrid()
+    public function generateWeekGrid(): Collection
     {
 /*         $weekGrid = collect();
         $currentDay = Carbon::today()->startOfWeek();
