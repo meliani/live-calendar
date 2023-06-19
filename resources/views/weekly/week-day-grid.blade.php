@@ -27,7 +27,7 @@
                 </p>
                 <p class="text-xs text-gray-600 ml-4">
                     @if($week_events->isNotEmpty())
-                        {{ $week_events->count() }} {{ Str::plural('event', $week_events->count()) }}
+                        {{ $week_events->count() }} {{ Str::plural('activity', $week_events->count()) }}
                     @endif
                 </p>
             </div>
