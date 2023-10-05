@@ -10,7 +10,8 @@ use Illuminate\View\View;
 use Livewire\Component;
 
 class LiveCalendar extends Component
-    {
+{
+    public $id;
     public $startsAt;
     public $endsAt;
 
@@ -36,7 +37,7 @@ class LiveCalendar extends Component
     public $dragAndDropEnabled;
     public $dayClickEnabled;
     public $eventClickEnabled;
-    public $showWeekends=false; // New var  - not yet added to constructor
+    public $showWeekends = false; // New var  - not yet added to constructor
     public $isLoading = false;
 
     protected $casts = [
@@ -68,8 +69,7 @@ class LiveCalendar extends Component
         $this->weekStartsAt = $weekStartsAt ?? Carbon::SUNDAY;
         $this->weekEndsAt = $this->weekStartsAt == Carbon::SUNDAY
             ? Carbon::SATURDAY
-            : collect([0, 1, 2, 3, 4, 5, 6])->get($this->weekStartsAt + 6 - 7)
-        ;
+            : collect([0, 1, 2, 3, 4, 5, 6])->get($this->weekStartsAt + 6 - 7);
 
         $initialYear = $initialYear ?? Carbon::today()->year;
         $initialMonth = $initialMonth ?? Carbon::today()->month;
@@ -88,17 +88,17 @@ class LiveCalendar extends Component
 
         $this->dayClickEnabled = $dayClickEnabled;
         $this->eventClickEnabled = $eventClickEnabled;
-        
+
         $this->afterMount($extras);
-        }
+    }
 
     public function afterMount($extras = [])
-        {
+    {
         //
-        }
+    }
 
     public function events(): Collection
-        {
+    {
         return collect();
-        }
-   }
+    }
+}
